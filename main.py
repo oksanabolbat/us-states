@@ -15,7 +15,6 @@ print(df)
 
 entered_states = []
 
-
 def show_state(data):
     st_turtle = Turtle()
     st_turtle.penup()
@@ -27,13 +26,22 @@ def show_state(data):
 
 while len(entered_states) < 50:
     # title = "Guess the state" if len(entered_states) < 1 else f"{len(entered_states)}/50 are guessed"
+
     user_answer = screen.textinput(
         "Guess the state" if len(entered_states) < 1 else f"{len(entered_states)}/50 are guessed",
         "What's another state name?").strip().title()
     print(user_answer)
+    if user_answer == "Exit":
+        break
     if len(df[df.state == user_answer]) > 0 and user_answer not in entered_states:
         show_state(df[df.state == user_answer].values[0].tolist())
         entered_states.append(user_answer)
 
-screen.mainloop()
+# screen.mainloop()
 # screen.exitonclick()
+
+# states_to_learn.csv
+to_learn_df = df[~df.state.isin(entered_states)]
+print(to_learn_df)
+to_learn_df.to_csv("states_to_learn.csv")
+
